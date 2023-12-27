@@ -29,14 +29,27 @@ const App = () => {
 
     const checkLoginStatus = async () => {
       if (storedToken && storedUserRole) {
-        // Token exists, set user as logged in
-        setUserRole(storedUserRole);
+        try {
+          // Verify the token with your server's /verify endpoint
+          await axios.get("http://localhost:3000/verify", {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          });
 
-        // Fetch user-specific search agents
-        await fetchSearchAgents();
+          // Token is valid, set user as logged in
+          setUserRole(storedUserRole);
 
-        // Set user as logged in after fetching search agents
-        setIsLoggedIn(true);
+          // Fetch user-specific search agents
+          await fetchSearchAgents();
+
+          // Set user as logged in after fetching search agents
+          setIsLoggedIn(true);
+        } catch (error) {
+          // Token verification failed, perform logout (clear local storage, etc.)
+          // ...
+          console.error("Error verifying token:", error);
+        }
       }
     };
 

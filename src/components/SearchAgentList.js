@@ -38,7 +38,7 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
     const properties = [];
 
     for (const [key, value] of Object.entries(agent.filter)) {
-      if (key === "width" || key === "length") {
+      if (key === "width" || key === "length" || key === "ringSize") {
         const { from, to } = value;
         properties.push(
           <Box key={key} mb={2}>
@@ -223,7 +223,9 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
                         <Text fontSize="lg" fontWeight="bold">
                           {key.charAt(0).toUpperCase() + key.slice(1)}:
                         </Text>
-                        {key === "length" || key === "width" ? (
+                        {key === "length" ||
+                        key === "width" ||
+                        key === "ringSize" ? (
                           <Flex>
                             <Text fontSize="sm" mr={2}>
                               From:

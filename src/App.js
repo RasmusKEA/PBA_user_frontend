@@ -15,11 +15,17 @@ const App = () => {
     // Check for the authentication token on page load
     const storedToken = localStorage.getItem("authToken");
     const storedUserRole = localStorage.getItem("userRole");
+    const storedEmail = localStorage.getItem("email");
 
     const fetchSearchAgents = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3002/search-agent/find?email=user@al.dk`
+          `http://localhost:3002/search-agent/find?email=${storedEmail}`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          }
         );
         setSearchAgents(response.data);
       } catch (error) {
@@ -59,11 +65,18 @@ const App = () => {
   const handleSuccessfulLogin = async (role) => {
     setUserRole(role);
     setIsLoggedIn(true);
+    const storedToken = localStorage.getItem("authToken");
+    const storedEmail = localStorage.getItem("email");
 
     if (role === "user") {
       try {
         const response = await axios.get(
-          `http://localhost:3002/search-agent/find?email=user@al.dk`
+          `http://localhost:3002/search-agent/find?email=${storedEmail}`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          }
         );
         setSearchAgents(response.data);
       } catch (error) {
@@ -74,12 +87,23 @@ const App = () => {
 
   const handleDeleteAgent = async (id) => {
     try {
+      const storedToken = localStorage.getItem("authToken");
+      const storedEmail = localStorage.getItem("email");
       // Make a DELETE request to delete the search agent with the given id
-      await axios.delete(`http://localhost:3002/search-agent/delete/${id}`);
+      await axios.delete(`http://localhost:3002/search-agent/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      });
 
       // After deletion, refetch the updated search agents
       const response = await axios.get(
-        `http://localhost:3002/search-agent/find?email=user@al.dk`
+        `http://localhost:3002/search-agent/find?email=${storedEmail}`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        }
       );
       setSearchAgents(response.data);
     } catch (error) {

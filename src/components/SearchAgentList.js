@@ -20,10 +20,12 @@ import {
   ModalBody,
   ModalFooter,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 
 const SearchAgentList = ({ searchAgents, onDelete }) => {
+  const toast = useToast();
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [agentIdToDelete, setAgentIdToDelete] = useState(null);
@@ -102,8 +104,6 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
   };
 
   const handleSaveChanges = async () => {
-    console.log("Edited Agent:", editedAgent.filter);
-    console.log(editModalId);
     try {
       // Convert the "brand" string to an array by splitting on commas
       const brandArray = Array.isArray(editedAgent.filter.brand)
@@ -118,19 +118,29 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
         brand: brandArray,
       };
 
-      // Make API call to update the search agent with editedAgent data
+      const storedToken = localStorage.getItem("authToken");
       await axios.put(
         `http://localhost:3002/search-agent/update/${editModalId}`,
         {
           filter: updatedFilter,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
         }
       );
-
       // After a successful update, close the modal and fetch updated data
       setIsEditModalOpen(false);
       setEditModalId(null);
       setEditedAgent({});
       window.location.reload(false);
+      toast({
+        title: "Search Agent Updated",
+        status: "success",
+        duration: 3000, // Duration in milliseconds
+        isClosable: true,
+      });
     } catch (error) {
       console.error("Error updating search agent:", error);
     }

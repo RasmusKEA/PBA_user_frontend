@@ -57,10 +57,12 @@ const LoginForm = ({ onSuccessfulLogin }) => {
       });
 
       const { token, userRole } = response.data;
+      console.log(response.data);
 
       // Store the token and user role in localStorage
       localStorage.setItem("authToken", token);
       localStorage.setItem("userRole", userRole);
+      localStorage.setItem("email", response.data.email);
 
       // Call the handleSuccessfulLogin function with the user role
       onSuccessfulLogin(userRole);

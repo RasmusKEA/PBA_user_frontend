@@ -4,7 +4,7 @@ import SearchAgentList from "./components/SearchAgentList";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const theme = extendTheme(/* Your Chakra UI theme config here */);
+const theme = extendTheme(/* Chakra UI theme config here */);
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -12,7 +12,6 @@ const App = () => {
   const [searchAgents, setSearchAgents] = useState([]);
 
   useEffect(() => {
-    // Check for the authentication token on page load
     const storedToken = localStorage.getItem("authToken");
     const storedUserRole = localStorage.getItem("userRole");
     const storedEmail = localStorage.getItem("email");
@@ -36,31 +35,22 @@ const App = () => {
     const checkLoginStatus = async () => {
       if (storedToken && storedUserRole) {
         try {
-          // Verify the token with your server's /verify endpoint
           await axios.get("http://localhost:3000/verify", {
             headers: {
               Authorization: `Bearer ${storedToken}`,
             },
           });
-
-          // Token is valid, set user as logged in
           setUserRole(storedUserRole);
-
-          // Fetch user-specific search agents
           await fetchSearchAgents();
-
-          // Set user as logged in after fetching search agents
           setIsLoggedIn(true);
         } catch (error) {
-          // Token verification failed, perform logout (clear local storage, etc.)
-          // ...
           console.error("Error verifying token:", error);
         }
       }
     };
 
     checkLoginStatus();
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, []);
 
   const handleSuccessfulLogin = async (role) => {
     setUserRole(role);
@@ -89,14 +79,12 @@ const App = () => {
     try {
       const storedToken = localStorage.getItem("authToken");
       const storedEmail = localStorage.getItem("email");
-      // Make a DELETE request to delete the search agent with the given id
       await axios.delete(`http://localhost:3002/search-agent/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${storedToken}`,
         },
       });
 
-      // After deletion, refetch the updated search agents
       const response = await axios.get(
         `http://localhost:3002/search-agent/find?email=${storedEmail}`,
         {
@@ -125,7 +113,6 @@ const App = () => {
                 onDelete={handleDeleteAgent}
               />
             )}
-            {/* Add role-specific components here */}
           </Box>
         ) : (
           <LoginForm onSuccessfulLogin={handleSuccessfulLogin} />

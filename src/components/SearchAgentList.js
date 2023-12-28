@@ -103,14 +103,12 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
 
   const handleSaveChanges = async () => {
     try {
-      // Convert the "brand" string to an array by splitting on commas
       const brandArray = Array.isArray(editedAgent.filter.brand)
         ? editedAgent.filter.brand
         : editedAgent.filter.brand
         ? editedAgent.filter.brand.split(",").map((brand) => brand.trim())
         : [];
 
-      // Update the editedAgent.filter with the array representation of "brand"
       const updatedFilter = {
         ...editedAgent.filter,
         brand: brandArray,
@@ -128,7 +126,7 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
           },
         }
       );
-      // After a successful update, close the modal and fetch updated data
+
       setIsEditModalOpen(false);
       setEditModalId(null);
       setEditedAgent({});
@@ -164,12 +162,7 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
           <SimpleGrid columns={2} spacingX={4} spacingY={2} mt={2}>
             {getProperties(agent)}
           </SimpleGrid>
-          <ButtonGroup
-            mt="auto" // This makes the ButtonGroup stick to the bottom
-            spacing={4}
-            position="absolute"
-            bottom="4"
-          >
+          <ButtonGroup mt="auto" spacing={4} position="absolute" bottom="4">
             <Button
               colorScheme="blue"
               onClick={() => handleEditClick(agent.id)}
@@ -184,7 +177,6 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
             </Button>
           </ButtonGroup>
 
-          {/* Delete Confirmation Alert */}
           <AlertDialog
             isOpen={isDeleteAlertOpen}
             onClose={handleCloseDeleteAlert}
@@ -213,7 +205,6 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
             </AlertDialogOverlay>
           </AlertDialog>
 
-          {/* Edit Modal */}
           <Modal
             isOpen={isEditModalOpen}
             onClose={handleCloseEditModal}
@@ -233,7 +224,6 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
                           {key.charAt(0).toUpperCase() + key.slice(1)}:
                         </Text>
                         {key === "length" || key === "width" ? (
-                          // Range Slider for "length" and "width"
                           <Flex>
                             <Text fontSize="sm" mr={2}>
                               From:
@@ -276,7 +266,6 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
                             />
                           </Flex>
                         ) : (
-                          // Input field for other properties
                           <Input
                             mb={2}
                             value={value}

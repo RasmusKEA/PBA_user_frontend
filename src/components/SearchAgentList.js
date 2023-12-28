@@ -20,12 +20,10 @@ import {
   ModalBody,
   ModalFooter,
   Input,
-  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 
 const SearchAgentList = ({ searchAgents, onDelete }) => {
-  const toast = useToast();
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [agentIdToDelete, setAgentIdToDelete] = useState(null);
@@ -135,12 +133,6 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
       setEditModalId(null);
       setEditedAgent({});
       window.location.reload(false);
-      toast({
-        title: "Search Agent Updated",
-        status: "success",
-        duration: 3000, // Duration in milliseconds
-        isClosable: true,
-      });
     } catch (error) {
       console.error("Error updating search agent:", error);
     }

@@ -3,6 +3,7 @@ import LoginForm from "./components/LoginForm";
 import SearchAgentList from "./components/SearchAgentList";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import AddProduct from "./components/AddProduct";
 
 const theme = extendTheme(/* Chakra UI theme config here */);
 
@@ -106,7 +107,7 @@ const App = () => {
         {isLoggedIn ? (
           <Box>
             {userRole === "admin" ? (
-              <p>You are logged in as an admin.</p>
+              <AddProduct />
             ) : (
               <SearchAgentList
                 searchAgents={searchAgents}

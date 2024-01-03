@@ -3,7 +3,7 @@ import LoginForm from "./components/LoginForm";
 import SearchAgentList from "./components/SearchAgentList";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import AddProduct from "./components/AddProduct";
+import ProductView from "./components/ProductView";
 
 const theme = extendTheme(/* Chakra UI theme config here */);
 
@@ -42,7 +42,10 @@ const App = () => {
             },
           });
           setUserRole(storedUserRole);
-          await fetchSearchAgents();
+          if (storedUserRole === "user") {
+            await fetchSearchAgents();
+          }
+
           setIsLoggedIn(true);
         } catch (error) {
           console.error("Error verifying token:", error);
@@ -107,7 +110,7 @@ const App = () => {
         {isLoggedIn ? (
           <Box>
             {userRole === "admin" ? (
-              <AddProduct />
+              <ProductView />
             ) : (
               <SearchAgentList
                 searchAgents={searchAgents}

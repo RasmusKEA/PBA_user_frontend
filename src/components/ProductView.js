@@ -16,7 +16,9 @@ const ProductView = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3005/getUnpublished");
+        const response = await fetch(
+          "http://13.51.172.202:3000/getUnpublished"
+        );
 
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -145,7 +147,7 @@ const ProductView = () => {
 
       // Make a POST request to publish the product
       const response = await fetch(
-        `http://localhost:3005/publishProduct/${productId}`,
+        `http://16.170.254.146:3000/publishProduct/${productId}`,
         {
           method: "POST",
           headers: {
@@ -155,17 +157,14 @@ const ProductView = () => {
       );
 
       if (response.ok) {
-        // If response from localhost:3005 is okay, proceed to post arrayifyData to localhost:3002
         const result = await response.json();
         console.log(result.message);
 
-        // Create an array with the filteredData to send in the request to localhost:3002
         const arrayifyData = { image, handle, products: [filteredData] };
 
         const storedToken = localStorage.getItem("authToken");
-        // Make a POST request to localhost:3002
         const arrayifyResponse = await fetch(
-          "http://localhost:3002/search-agent/match",
+          "http://13.51.85.49:3000/search-agent/match",
           {
             method: "POST",
             headers: {

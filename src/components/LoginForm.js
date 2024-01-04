@@ -19,9 +19,12 @@ const LoginForm = ({ onSuccessfulLogin }) => {
 
   const handleEmailCheck = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/check-email", {
-        email,
-      });
+      const response = await axios.post(
+        "http://16.171.39.224:3000/check-email",
+        {
+          email,
+        }
+      );
 
       if (response.status === 200) {
         setShowPasswordInput(true);
@@ -51,7 +54,7 @@ const LoginForm = ({ onSuccessfulLogin }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/login", {
+      const response = await axios.post("http://16.171.39.224:3000/login", {
         email,
         password,
       });

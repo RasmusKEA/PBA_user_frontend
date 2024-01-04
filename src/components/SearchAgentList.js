@@ -121,7 +121,7 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
 
       const storedToken = localStorage.getItem("authToken");
       await axios.put(
-        `http://localhost:3002/search-agent/update/${editModalId}`,
+        `http://13.51.85.49:3000/search-agent/update/${editModalId}`,
         {
           filter: updatedFilter,
         },

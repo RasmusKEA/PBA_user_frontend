@@ -20,7 +20,7 @@ const App = () => {
     const fetchSearchAgents = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3002/search-agent/find?email=${storedEmail}`,
+          `http://13.51.85.49:3000/search-agent/find?email=${storedEmail}`,
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -36,7 +36,7 @@ const App = () => {
     const checkLoginStatus = async () => {
       if (storedToken && storedUserRole) {
         try {
-          await axios.get("http://localhost:3000/verify", {
+          await axios.get("http://16.171.39.224:3000/verify", {
             headers: {
               Authorization: `Bearer ${storedToken}`,
             },
@@ -65,7 +65,7 @@ const App = () => {
     if (role === "user") {
       try {
         const response = await axios.get(
-          `http://localhost:3002/search-agent/find?email=${storedEmail}`,
+          `http://13.51.85.49:3000/search-agent/find?email=${storedEmail}`,
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -83,14 +83,14 @@ const App = () => {
     try {
       const storedToken = localStorage.getItem("authToken");
       const storedEmail = localStorage.getItem("email");
-      await axios.delete(`http://localhost:3002/search-agent/delete/${id}`, {
+      await axios.delete(`http://13.51.85.49:3000/search-agent/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${storedToken}`,
         },
       });
 
       const response = await axios.get(
-        `http://localhost:3002/search-agent/find?email=${storedEmail}`,
+        `http://13.51.85.49:3000/search-agent/find?email=${storedEmail}`,
         {
           headers: {
             Authorization: `Bearer ${storedToken}`,

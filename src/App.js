@@ -19,8 +19,9 @@ const App = () => {
 
     const fetchSearchAgents = async () => {
       try {
+        const encodedEmail = encodeURIComponent(storedEmail);
         const response = await axios.get(
-          `http://13.51.85.49:3000/search-agent/find?email=${storedEmail}`,
+          `http://13.51.85.49:3000/search-agent/find?email=${encodedEmail}`,
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,

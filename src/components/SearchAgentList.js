@@ -107,18 +107,26 @@ const SearchAgentList = ({ searchAgents, onDelete }) => {
   };
 
   const handleSaveChanges = async () => {
+    let updatedFilter;
     try {
-      const brandArray = Array.isArray(editedAgent.filter.brand)
-        ? editedAgent.filter.brand
-        : editedAgent.filter.brand
-        ? editedAgent.filter.brand.split(",").map((brand) => brand.trim())
-        : [];
+      // Check if there are changes to the brand
+      if (
+        editedAgent.filter &&
+        (editedAgent.filter.brand !== undefined ||
+          Array.isArray(editedAgent.filter.brand))
+      ) {
+        const brandArray = Array.isArray(editedAgent.filter.brand)
+          ? editedAgent.filter.brand
+          : editedAgent.filter.brand
+          ? editedAgent.filter.brand.split(",").map((brand) => brand.trim())
+          : [];
 
-      const updatedFilter = {
-        ...editedAgent.filter,
-        brand: brandArray,
-      };
-
+        updatedFilter = {
+          ...editedAgent.filter,
+          brand: brandArray,
+        };
+      }
+      updatedFilter = { ...editedAgent.filter };
       const storedToken = localStorage.getItem("authToken");
       await axios.put(
         `http://13.51.85.49:3000/search-agent/update/${editModalId}`,
